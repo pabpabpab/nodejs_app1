@@ -42,8 +42,6 @@ emitter.on(STOP_TIMER_EVENT, stopTimer);
 // =========================================
 const args = process.argv.splice(2);
 
-emitter.setMaxListeners(args.length);
-
 // элемент массива - дата и время в формате «час-день-месяц-год»
 args.forEach((inputDate, taskIndex) => {
     const [hours, date, month, year] = inputDate.split('-').map(item => Number(item));
