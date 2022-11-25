@@ -66,7 +66,7 @@ readStream.on('data', (chunk) => {
 
     // передать фильтрованные по каждому ip логи соответствующему writable-потоку
     ips.forEach((ip) => {
-        writeStreams[ip].write(filteredLogs[ip].join('\n'));
+        writeStreams[ip].write(filteredLogs[ip].join('\n') + '\n');
     })
 });
 
