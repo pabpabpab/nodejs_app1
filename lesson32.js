@@ -46,6 +46,7 @@ rl.on('line', (line) => {
     // в цикле проверка строки на соответствие каждому ip, прервать цикл при первом попадании
     ips.forEach((ip) => {
         if (regExps[ip].test(line)) {
+            // передать прошедшую условие строку соответствующему writable-потоку
             writeStreams[ip].write(line + '\n');
             return; // выход из forEach
         }
