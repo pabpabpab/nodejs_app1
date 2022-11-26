@@ -37,7 +37,7 @@ const rl = readline.createInterface({
     crlfDelay: Infinity
 });
 
-// Событие получения строки
+// Событие получения строки Readline'ом
 rl.on('line', (line) => {
     // выйти из обработчика если строка пустая
     if (!Boolean(line.trim())) {
