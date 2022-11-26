@@ -38,6 +38,7 @@ const rl = readline.createInterface({
 });
 
 // Событие получения строки Readline'ом
+// The 'line' event is emitted whenever the input stream receives an end-of-line input (\n, \r, or \r\n)
 rl.on('line', (line) => {
     // выйти из обработчика если строка пустая
     if (!Boolean(line.trim())) {
@@ -73,4 +74,14 @@ ips.forEach((ip) => {
     writeStreams[ip].on('error', (err) => {
         console.log(`Error «${err}» occured for ${ip} file writing.`);
     });
+});
+
+// Readline close event
+rl.on('close', (line) => {
+    console.log('Readline closed.')
+});
+
+// Readline error event
+rl.on('error', (err) => {
+    console.log(`Readline error «${err}» occured.`)
 });
