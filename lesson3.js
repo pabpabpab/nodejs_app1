@@ -37,8 +37,12 @@ readStream.once('readable', () => {
     console.log('Start of reading.');
 });
 
+// здесь будет хвостик чанка
+let rest = '';
+
 // Чтение данных происходит порционно
 readStream.on('data', (chunk) => {
+
     // инициировать объект с пропсами-контейнерами для фильтрованных логов
     const filteredLogs = {};
     ips.forEach((ip) => {
@@ -48,9 +52,25 @@ readStream.on('data', (chunk) => {
     // разбить чанк на массив строк
     const lines = chunk.split('\n');
 
+    // Склейка остатков.
+    // Чанк может обрезаться по середине строки,
+    // приклеить остаток с предыдущего чанка.
+    lines[0] = rest + lines[0];
+    // На последнем чанке лимит цикла будет другой чем на предыдущих чанках
+    let linesLimit;
+    if (Math.ceil(chunk.length/1024) < 64) {
+        // длина чанка меньше 64 кб, значит это последний чанк
+        linesLimit = lines.length;
+    } else {
+        // длина чанка равна 64 кб, значит это не последний чанк
+        linesLimit = lines.length - 1;
+        // сохранить хвостик для склейки на следующем цикле
+        rest = lines[lines.length - 1];
+    }
+
     // для каждой строки делать проверку на заданные ip
     // и записывать в соответствующий filteredLogs[ip]
-    for (let i = 0; i < lines.length; i++) {
+    for (let i = 0; i < linesLimit; i++) {
         const line = lines[i];
         // если пустая строка, то continue
         if (!Boolean(line.trim())) {
