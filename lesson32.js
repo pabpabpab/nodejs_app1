@@ -31,16 +31,19 @@ ips.forEach((ip) => {
 // Создание readable-потока для исходного файла
 const readStream = fs.createReadStream(path.join(__dirname, 'logs', 'access.txt'), 'utf-8');
 
+// Создать Readline для возможности обработки данных из readable-потока по одной строке
 const rl = readline.createInterface({
     input: readStream,
     crlfDelay: Infinity
 });
 
+// Событие получения строки
 rl.on('line', (line) => {
+    // выйти из обработчика если строка пустая
     if (!Boolean(line.trim())) {
         return;
     }
-
+    // в цикле проверка строки на соответствие каждому ip, прервать цикл при первом попадании
     ips.forEach((ip) => {
         if (regExps[ip].test(line)) {
             writeStreams[ip].write(line + '\n');
