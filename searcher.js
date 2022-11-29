@@ -3,7 +3,6 @@
 import fs from 'fs';
 import fsp from 'fs/promises';
 import path from 'path';
-import {fileURLToPath} from 'url';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import inquirer from 'inquirer';
@@ -19,7 +18,7 @@ const FOLDER_SELECTED = 'FOLDER_SELECTED';
 const SEARCH_STRING_RECEIVED = 'SEARCH_STRING_RECEIVED';
 const FILE_RECEIVED = 'FILE_RECEIVED';
 
-// Так как все должно быть асинхронное, то буду строить приложение на событиях (не знаю делают ли так в разработке)
+// Так как все должно быть асинхронное, то буду строить приложение полностью на событиях (не знаю делают ли так в разработке)
 emitter.on(USER_PATH_RECEIVED, handleUserPath);
 emitter.on(USER_PATH_READY, readDirectory);
 emitter.on(FOLDER_SELECTED, askWhatToSearch);
@@ -27,10 +26,10 @@ emitter.on(SEARCH_STRING_RECEIVED, iterateFolderForSearch);
 emitter.on(FILE_RECEIVED, doSearch);
 
 // Глобальная переменная "всего найденных вхождений в папке"
-// (не знаю как правильно делается глобальная переменная в разработке)
+// (не знаю как лучше делать глобальную переменную в разработке)
 let globalCount = 0;
 
-// Задать путь к папке можно через флаг "-p", но необязательно
+// Задать путь к папке можно через флаг "-p", но параметр необязательный
 const options = yargs(hideBin(process.argv))
     .usage("Usage: -p <path>")
     .option("p", { alias: "path", describe: "Path to file", type: "string" })
@@ -70,7 +69,7 @@ async function handleUserPath(userPath) {
     }
 
     let dirPath = '';
-    // на случай если был указан файл, взять папку
+    // на случай если был указан файл, взять папку в которой он находится
     if (src.isFile()) {
         dirPath = path.dirname(filePath);
     } else {
