@@ -54,10 +54,10 @@ if (!options.path) {
 async function handleUserPath(userPath) {
     let filePath = '';
     if (/^[A-Z]:[\\/].+$/.test(userPath)) {
-        filePath = userPath; // absolute
+        filePath = userPath; // был передан абсолютный путь
     } else {
         const __dirname = process.cwd();
-        filePath = path.join(__dirname, userPath); // relative
+        filePath = path.join(__dirname, userPath); // был передан относительный пут
     }
 
     let src;
