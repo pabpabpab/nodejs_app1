@@ -149,8 +149,9 @@ function iterateFolderForSearch({ dirPath, wanted }) {
 }
 
 // Обработчик события "FILE_RECEIVED"
-// Подсчет вхождений строки в одном файле (через поток и readline -
-// получается что это универсальный безопасный способ для больших и маленьких файлов)
+// Подсчет вхождений строки в одном файле (через поток и readline,
+// поток как безопасный способ для больших файлов, маленькие файлы заодно,
+// readline чтобы не выпадали совпадения на разрывах)
 function doSearch({ filePath, regExp, lastFile }) {
     const readStream = fs.createReadStream(filePath, 'utf-8');
     const rl = readline.createInterface({
