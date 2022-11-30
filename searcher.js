@@ -26,7 +26,6 @@ emitter.on(SEARCH_STRING_RECEIVED, iterateFolderForSearch);
 emitter.on(FILE_RECEIVED, doSearch);
 
 // Глобальная переменная "всего найденных вхождений в папке"
-// (не знаю как лучше делать глобальную переменную)
 let globalCount = 0;
 
 // Задать путь к папке можно через флаг "-p", но параметр необязательный
