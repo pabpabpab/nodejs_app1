@@ -12,6 +12,12 @@ import EventEmitter from 'events';
 class MyEventEmitter extends EventEmitter {};
 const emitter = new MyEventEmitter();
 
+/*
+ Как понял задание я: передаем скрипту путь, далее по этому пути уже в графическом интерфейсе выбираем вложенную папку,
+ выводим вопрос "что найти в выбранной папке", и ищем заданную строку во всех файлах в выбранной папке,
+ выводим в консоль сколько вхождений строки и в каких файлах. Такую задачу и решал.
+ */
+
 const USER_PATH_RECEIVED = 'USER_PATH_RECEIVED';
 const USER_PATH_READY = 'USER_PATH_READY';
 const FOLDER_SELECTED = 'FOLDER_SELECTED';
