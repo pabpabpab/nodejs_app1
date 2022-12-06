@@ -27,6 +27,7 @@
         document.getElementById('messages').append(document.createElement('br'));
     });
 
+    // событие переподключения
     socket.on('reconnect', () => {
         console.log('you have been reconnected');
         // where userNick is a global variable for the client

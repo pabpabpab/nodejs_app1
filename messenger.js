@@ -24,11 +24,14 @@ io.on('connection', (client) => {
 
     client.nick = getNick();
 
+    // Пришедшее событие с клиентской части - новое сообщение
     client.on('client-msg', (data) => {
+        // отправка сообщения всем кроме автора сообщения
         client.broadcast.emit('server-msg', {
             nick: client.nick,
             msg: data.msg
         })
+        // отправка автору его сообщения
         client.emit('server-msg', {
             nick: client.nick,
             msg: data.msg
@@ -37,13 +40,16 @@ io.on('connection', (client) => {
 
     // При отключении клиента - уведомляем остальных
     client.on('disconnect', () => {
+        // отправка сообщения всем о том что данный клиент вышел из чата
         client.broadcast.emit('server-msg', {
             nick: 'Bot',
             msg: `${client.nick} вышел из чата`
         })
     });
 
+    // Пришедшее событие с клиентской части о переподключении
     client.on('client-reconnected', (userNick) => {
+        // отправка сообщения всем о том что данный клиент переподключился
         client.broadcast.emit('server-msg', {
             nick: 'Bot',
             msg: `${userNick} переподключился`
@@ -51,6 +57,7 @@ io.on('connection', (client) => {
     });
 });
 
+// генерация ника
 function getNick() {
     const index1 = Math.floor(Math.random() * 20);
     const index2 = Math.floor(Math.random() * 10);
