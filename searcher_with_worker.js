@@ -18,11 +18,11 @@ const USER_PATH_READY = 'USER_PATH_READY';
 const FOLDER_SELECTED = 'FOLDER_SELECTED';
 const SEARCH_STRING_RECEIVED = 'SEARCH_STRING_RECEIVED';
 
-// Так как все должно быть асинхронное, то буду строить приложение полностью на событиях (не знаю делают ли так в разработке)
+// Так как все должно быть асинхронное, то буду строить приложение полностью на событиях
 emitter.on(USER_PATH_RECEIVED, handleUserPath);
 emitter.on(USER_PATH_READY, readDirectory);
 emitter.on(FOLDER_SELECTED, askWhatToSearch);
-emitter.on(SEARCH_STRING_RECEIVED, searchByWorker);
+emitter.on(SEARCH_STRING_RECEIVED, searchByWorker); // сам поиск в обработчике передается воркеру
 
 
 // Задать путь к папке можно через флаг "-p", но параметр необязательный
@@ -126,7 +126,7 @@ function askWhatToSearch(dirPath) {
 function searchByWorker({ dirPath, wanted }) {
     const workerData = { dirPath, wanted };
     const worker = new Worker('./worker_for_searcher.js', { workerData })
-    worker.on("message", console.log);
+    worker.on("message", console.log); // вывод результата поиска из воркера
 }
 
 // Здесь мог бы быть дальнейший код (задачи)...
