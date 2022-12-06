@@ -125,8 +125,9 @@ function askWhatToSearch(dirPath) {
 // Перебирать файлы в выбранной папке из запускать событие для поиска строки в каждом файле
 function searchByWorker({ dirPath, wanted }) {
     const workerData = { dirPath, wanted };
-    const worker = new Worker('./worker_for_searcher.js', { workerData })
-    worker.on("message", console.log); // вывод результата поиска из воркера
+    const worker = new Worker('./worker_for_searcher.js', { workerData });
+    // вывод результата поиска из воркера
+    worker.on("message", console.log);
 }
 
 // Здесь мог бы быть дальнейший код (задачи)...
